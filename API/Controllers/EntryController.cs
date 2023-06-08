@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using API.Data;
 using API.Data.DTOs;
 using API.Data.Entities;
 using API.Data.services;
@@ -27,6 +22,7 @@ namespace API.Controllers
 
             return Ok(result);
         }
+
          [HttpGet("{id}")]
         public async Task<ActionResult<PagedResponse<List<Entry>>>> GetEntryById(int id)
         {
@@ -42,7 +38,9 @@ namespace API.Controllers
         public async Task<ActionResult> DeleteEntry(int id)
         {
             var result = await _entryService.DeleteEntry(id);
+
             if (result) return Ok();
+
             return BadRequest(new ProblemDetails { Title = "problem deleting Entry" });
         }
 
@@ -50,7 +48,13 @@ namespace API.Controllers
         public async Task<ActionResult<Response<EntryDto>>> CreateEntry([FromBody] CreateEntryDto entryDto)
         {
             var userEmail = User.Identity?.Name;
-            
+            var result = await _entryService.CreateEntry(userEmail,entryDto);
+
+            if (result.Error != null)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
     }
 }
