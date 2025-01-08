@@ -7,8 +7,8 @@ namespace API.Data.DTOs
 {
     public class CreateEntryDto
     {
-        public string? Title { get; set; }
-        public string? Description { get; set; }
+        required public string Title { get; set; }
+        required public string Description { get; set; }
         public List<string> Tags { get; set; } = new();
     }
 }

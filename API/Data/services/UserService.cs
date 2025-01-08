@@ -33,6 +33,7 @@ namespace API.Data.services
                         Error = result.Errors.Select(e => e.Description).ToList()
                     };
                 }
+                await _userManager.AddToRoleAsync(user, "member");
 
                 return MaptoResponseUserDto(user);
             }

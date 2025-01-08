@@ -8,7 +8,7 @@ namespace API.Data.Entities
 {
     public class User : IdentityUser<int>
     {
-        public string NickName { get; set; } = null!;
+        required public string NickName { get; set; }
         public List<Entry> Entries { get; set; } = new();
     }
 }

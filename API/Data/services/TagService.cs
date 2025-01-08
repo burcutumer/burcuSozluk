@@ -47,6 +47,13 @@ namespace API.Data.services
             var allTags = await _context.Tags.Select(t => MapTagDto(t)).Skip(skip).Take(limit).ToListAsync();
             var count = await _context.Tags.CountAsync();
 
+            if (allTags == null)
+            {
+                return  new PagedResponse<List<TagDto>>
+                {
+                    Error = "tags cant be found"
+                };
+            }
             return new PagedResponse<List<TagDto>>
             {
                 Data = allTags,

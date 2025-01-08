@@ -8,18 +8,18 @@ namespace API.Data.DTOs
     public class UserDto
     {
         public int Id { get; set; }
-        public string NickName { get; set; } = null!;
-        public string Email { get; set; } = null!;
+        required public string NickName { get; set; }
+        required public string Email { get; set; }
     }
     public class CreateUserDto
     {
-        public string NickName { get; set; } = null!;
-        public string Email { get; set; } = null!;
-        public string Password { get; set; } = null!;
+        required public string NickName { get; set; }
+        required public string Email { get; set; }
+        required public string Password { get; set; }
     }
     public class UpdateUserDto
     {
-        public string? CurrentPassword { get; set; } = null!;
-        public string? Password { get; set; } = null!;
+        required public string CurrentPassword { get; set; }
+        required public string Password { get; set; }
     }
 }

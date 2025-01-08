@@ -1,6 +1,7 @@
 using API.Data.DTOs;
 using API.Data.Entities;
 using API.Data.services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -18,12 +19,12 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<PagedResponse<List<Entry>>>> GetAllEntry(int skip, int limit)
         {
-            var result = await _entryService.GetAllEntries(skip,limit);
+            var result = await _entryService.GetAllEntries(skip, limit);
 
             return Ok(result);
         }
 
-         [HttpGet("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<PagedResponse<List<Entry>>>> GetEntryById(int id)
         {
             var result = await _entryService.GetEntryById(id);
@@ -34,6 +35,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteEntry(int id)
         {
@@ -44,11 +46,12 @@ namespace API.Controllers
             return BadRequest(new ProblemDetails { Title = "problem deleting Entry" });
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Response<EntryDto>>> CreateEntry([FromBody] CreateEntryDto entryDto)
         {
             var userEmail = User.Identity?.Name;
-            var result = await _entryService.CreateEntry(userEmail,entryDto);
+            var result = await _entryService.CreateEntry(userEmail, entryDto);
 
             if (result.Error != null)
             {

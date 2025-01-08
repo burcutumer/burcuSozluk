@@ -39,7 +39,7 @@ namespace API.Data
                     Email = "admin@test.com"
                 };
                 await userManager.CreateAsync(admin, "Pa$$w0rd");
-                await userManager.AddToRolesAsync(admin, new[] { "Member", "admin" });
+                await userManager.AddToRolesAsync(admin, new[] { "member", "admin" });
             }
 
             if (context.Tags.Any()) return;

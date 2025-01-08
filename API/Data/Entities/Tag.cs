@@ -10,7 +10,7 @@ namespace API.Data.Entities
     public class Tag
     {
         public int Id { get; set; }
-        public string Name { get; set; } = null!;
+        required public string Name { get; set; }
         public List<EntryItem> EntryItems { get; set; } = new();
     }
 }

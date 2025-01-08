@@ -17,6 +17,34 @@ namespace API.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.12");
 
+            modelBuilder.Entity("API.Data.Entities.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EntryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("API.Data.Entities.Entry", b =>
                 {
                     b.Property<int>("Id")
@@ -98,14 +126,14 @@ namespace API.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NickName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedEmail")
@@ -273,6 +301,25 @@ namespace API.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("API.Data.Entities.Comment", b =>
+                {
+                    b.HasOne("API.Data.Entities.Entry", "Entry")
+                        .WithMany()
+                        .HasForeignKey("EntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Entry");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("API.Data.Entities.Entry", b =>
                 {
                     b.HasOne("API.Data.Entities.User", "User")
@@ -293,7 +340,7 @@ namespace API.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("API.Data.Entities.Tag", "Tag")
-                        .WithMany()
+                        .WithMany("EntryItems")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -355,6 +402,11 @@ namespace API.Data.Migrations
                 });
 
             modelBuilder.Entity("API.Data.Entities.Entry", b =>
+                {
+                    b.Navigation("EntryItems");
+                });
+
+            modelBuilder.Entity("API.Data.Entities.Tag", b =>
                 {
                     b.Navigation("EntryItems");
                 });

@@ -1,5 +1,6 @@
 using API.Data.DTOs;
 using API.Data.services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -12,6 +13,7 @@ namespace API.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "member,admin")]
         [HttpGet]
         public async Task<ActionResult<Response<UserDto>>> GetCurrentUser()
         {
@@ -35,6 +37,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "member")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Response<UserDto>>> DeleteUser(int id)
         {
@@ -46,6 +49,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "member")]
         [HttpPut("{id}")]
         public async Task<ActionResult<Response<bool>>> UpdateUser([FromBody] UpdateUserDto user, int id)
         {

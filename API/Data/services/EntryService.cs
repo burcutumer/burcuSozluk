@@ -91,6 +91,7 @@ namespace API.Data.services
             limit = limit > 10 ? 10 : limit;
 
             var entries = await _context.Entries
+                .Include(u => u.User)
                 .Include(e => e.EntryItems)
                 .ThenInclude(i => i.Tag)
                 .Select(e => MapToDto(e))
@@ -117,6 +118,7 @@ namespace API.Data.services
         public async Task<Response<EntryDto>> GetEntryById(int id)
         {
             var entry = await _context.Entries
+                .Include(u => u.User)
                 .Include(t => t.EntryItems)
                 .ThenInclude(t => t.Tag)
                 .FirstOrDefaultAsync(i => i.Id == id);
@@ -134,11 +136,12 @@ namespace API.Data.services
 
         }
 
-        private EntryDto MapToDto(Entry entry)
+        private static EntryDto MapToDto(Entry entry)
         {
             return new EntryDto
             {
                 Id = entry.Id,
+                Nickname = entry.User.NickName,
                 Title = entry.Title,
                 Description = entry.Description,
                 CreatedAt = entry.CreatedAt,

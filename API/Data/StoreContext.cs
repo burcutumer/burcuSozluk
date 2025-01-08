@@ -10,10 +10,9 @@ namespace API.Data
         {
         }
 
-
         public DbSet<Entry> Entries { get; set; } = null!;
+        public DbSet<Comment> Comments { get; set; } = null!;
         public DbSet<Tag> Tags { get; set; } = null!;
-
 
     }
 }

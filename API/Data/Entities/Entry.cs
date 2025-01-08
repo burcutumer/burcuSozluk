@@ -10,11 +10,11 @@ namespace API.Data.Entities
     public class Entry
     {
         public int Id { get; set; }
-        public string? Title { get; set; }
-        public string? Description { get; set; }
+        required public string Title { get; set; }
+        required public string Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public List<EntryItem> EntryItems { get; set; } = new();
         public int UserId { get; set; }
-        public User User { get; set; } = null!;
+        required public User User { get; set; }
     }
 }
